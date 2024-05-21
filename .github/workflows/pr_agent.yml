@@ -18,3 +18,8 @@ jobs:
         env:
           OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          config.model: "gpt-4o"
+          config.verbosity_level: "1"
+          pr_reviewer.inline_code_comments: "true"
+          pr_description.publish_description_as_comment: "true"
+          pr_code_suggestions.commitable_code_suggestions: "true"
