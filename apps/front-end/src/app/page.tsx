@@ -12,11 +12,7 @@ interface Todo {
 }
 
 const Index = () => {
-  const [todos, setTodos] = useState<Array<Todo>>(
-    typeof window !== 'undefined' && window.localStorage.getItem('todos')
-      ? JSON.parse(window.localStorage.getItem('todos')!)
-      : []
-  );
+  const [todos, setTodos] = useState<Array<Todo>>([]);
 
   const [newTodo, setNewTodo] = useState({ title: '', description: '', completed: false });
 
