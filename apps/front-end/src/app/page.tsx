@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import styles from './page.module.css';
 
 interface Todo {
-  id: typeof uuidv4;
+  id: string;
   title: string;
   description: string;
   completed: boolean;
