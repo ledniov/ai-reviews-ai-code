@@ -18,7 +18,9 @@
     ],
     "types": [
       "jest",
-      "node"
+      "node",
+      "@types/react",
+      "@types/react-dom"
     ]
   },
   "include": [
