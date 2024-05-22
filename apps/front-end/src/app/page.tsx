@@ -22,7 +22,7 @@ const Index = () => {
 
   const addTodo = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setTodos([...todos, { ...newTodo, id: Date.now() }]);
+    setTodos([...todos, { ...newTodo, id: uuidv4() }]);
     setNewTodo({ title: '', description: '', completed: false });
   };
 
