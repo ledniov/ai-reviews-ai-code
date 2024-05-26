@@ -9,6 +9,10 @@ resource "aws_dynamodb_table" "todos_table" {
   billing_mode   = "PAY_PER_REQUEST"
   hash_key       = "id"
 
+  point_in_time_recovery {
+    enabled = true
+  }
+
   attribute {
     name = "id"
     type = "S"
@@ -40,8 +44,10 @@ resource "aws_iam_role_policy_attachment" "lambda_dynamodb_policy_attachment" {
 
 # Define the IAM policy for DynamoDB access
 resource "aws_iam_policy" "lambda_dynamodb_policy" {
-  name   = "lambda-dynamodb-policy"
-  policy = data.aws_iam_policy_document.lambda_dynamodb_policy_document.json
+  name        = "lambda-dynamodb-policy"
+  description = "IAM policy for Lambda to access DynamoDB"
+  policy      = data.aws_iam_policy_document.lambda_dynamodb_policy_document.json
+}
 }
 
 # Define the IAM policy document for DynamoDB access
