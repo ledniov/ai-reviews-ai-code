@@ -20,7 +20,7 @@ app.get("/todos", async function (req, res) {
         id: id.S,
         title: title.S,
         description: description.S,
-        completed: completed.S,  
+        completed: completed.BOOL,
       };
     });
 
@@ -50,7 +50,7 @@ app.get("/todos/:id", async function (req, res) {
         id: id.S,
         title: title.S,
         description: description.S,
-        completed: completed.S,  
+        completed: completed.BOOL,  
       });
     } else {
       res
@@ -79,7 +79,7 @@ app.delete("/todos/:id", async function (req, res) {
     res.json({ });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Could not retreive user" });
+    res.status(500).json({ error: "Could not delete todo item" });
   }
 });
 
@@ -99,7 +99,7 @@ app.post("/todos", async function (req, res) {
         S: description
       },
       completed: {
-        S: completed
+        BOOL: completed
       },
     },
   };
