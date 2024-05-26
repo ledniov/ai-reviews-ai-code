@@ -13,21 +13,53 @@ interface Todo {
 
 const Index = () => {
   const [todos, setTodos] = useState<Array<Todo>>([]);
+  const [newTodo, setNewTodo] = useState({ id: uuidv4() ,title: '', description: '', completed: false });
 
-  const [newTodo, setNewTodo] = useState({ title: '', description: '', completed: false });
+  useEffect(() => {
+    const fetchTodos = async () => {
+      try {
+        const response = await fetch('/api/todos');
+        const data = await response.json();
+        setTodos(data.todos);
+      } catch (error) {
+        console.error('Error fetching todos:', error);
+      }
+    };
 
-  const addTodo = (e: React.FormEvent<HTMLFormElement>) => {
+    fetchTodos();
+  }, []);
+
+  const addTodo = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setTodos([...todos, { ...newTodo, id: uuidv4() }]);
-    setNewTodo({ title: '', description: '', completed: false });
+    try {
+      const response = await fetch('/api/todos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newTodo),
+      });
+      const data = await response.json();
+      setTodos([...todos, data]);
+      setNewTodo({ id: uuidv4(), title: '', description: '', completed: false });
+    } catch (error) {
+      console.error('Error adding todo:', error);
+    }
   };
 
   const updateTodo = (id: string, updatedTodo: Todo) => {
     setTodos(todos.map((todo) => (todo.id === id ? updatedTodo : todo)));
   };
 
-  const deleteTodo = (id: string) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+  const deleteTodo = async (id: string) => {
+    try {
+      await fetch(`/api/todos/${id}`, {
+        method: 'DELETE',
+      });
+      setTodos(todos.filter((todo) => todo.id !== id));
+    } catch (error) {
+      console.error('Error deleting todo:', error);
+    }
   };
 
   return (
