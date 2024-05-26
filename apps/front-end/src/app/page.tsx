@@ -41,7 +41,7 @@ const Index = () => {
       });
       const data = await response.json();
       setTodos([...todos, data]);
-      setNewTodo({ title: '', description: '', completed: false });
+      setNewTodo({ id: uuidv4(), title: '', description: '', completed: false });
     } catch (error) {
       console.error('Error adding todo:', error);
     }
