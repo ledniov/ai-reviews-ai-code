@@ -1,0 +1,20 @@
+### Get todo items
+GET http://localhost:4507/restapis/6yxitcyg97/local/_user_request_/todos
+
+### Add todo item
+POST http://localhost:4507/restapis/6yxitcyg97/local/_user_request_/todos
+Content-Type: application/json
+
+{
+    "id": "fb43b3df-e3d0-426e-8d75-b477e76ead6a",
+    "title": "asdfsdf",
+    "description": "ddddddd",
+    "completed": false
+}
+
+### Delete todo item
+DELETE http://localhost:4507/restapis/6yxitcyg97/local/_user_request_/todos/fb43b3df-e3d0-426e-8d75-b477e76ead6a
+
+### Get single todo item
+GET http://localhost:4507/restapis/6yxitcyg97/local/_user_request_/todos/fb43b3df-e3d0-426e-8d75-b477e76ead6a
+
