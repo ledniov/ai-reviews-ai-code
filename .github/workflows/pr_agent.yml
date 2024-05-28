@@ -1,0 +1,38 @@
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review]
+  issue_comment:
+jobs:
+  pr_agent_job:
+    if: ${{ github.event.sender.type != 'Bot' }}
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      issues: write
+      pull-requests: write
+      contents: write
+    name: Run pr agent on every pull request, respond to user comments
+    steps:
+      - name: Configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::730335509673:role/CodeGuruSecurityGitHubAccessRole
+          aws-region: us-east-1
+          role-session-name: GitHubActionScript
+      
+      - name: PR Agent action step
+        id: pragent
+        uses: Codium-ai/pr-agent@v0.22
+        env:
+          OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # config.model: "bedrock/meta.llama3-70b-instruct-v1:0"
+          # config.model_turbo: "bedrock/meta.llama3-8b-instruct-v1:0"
+          # config.fallback_models: "[\"bedrock/meta.llama3-8b-instruct-v1:0\"]"
+          # aws.bedrock_region: "us-east-1"
+          CONFIG.MODEL: "gpt-4o"
+          CONFIG.VERBOSITY_LEVEL: "1"
+          PR_REVIEWER.INLINE_CODE_COMMENTS: "true"
+          PR_REVIEWER.REQUIRE_SCORE_REVIEW: "true"
+          PR_DESCRIPTION.PUBLISH_DESCRIPTION_AS_COMMENT: "true"
+          PR_CODE_SUGGESTIONS.COMMITABLE_CODE_SUGGESTIONS: "true"

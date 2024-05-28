@@ -1,0 +1,59 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: ledniov
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: todo-back-end
+
+package:
+  individually: true
+
+custom:
+  tableName: 'todos-table-${sls:stage}'
+  localstack:
+    host: http://localstack
+    edgePort: 4507
+    stages:
+      - local
+
+plugins:
+  - serverless-localstack
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - Fn::GetAtt: [ TodosTable, Arn ]
+  environment:
+    TODOS_TABLE: ${self:custom.tableName}
+
+functions:
+  api:
+    handler: main.handler
+    package:
+      artifact: ../../../dist/apps/back-end/main.zip
+    events:
+      - http: 'ANY /{proxy+}'
+
+resources:
+  Resources:
+    TodosTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:custom.tableName}
