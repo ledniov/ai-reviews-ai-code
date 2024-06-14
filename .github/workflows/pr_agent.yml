@@ -32,6 +32,7 @@ jobs:
           CONFIG.MODEL: "bedrock/anthropic.claude-3-sonnet-20240229-v1:0"
           CONFIG.MODEL_TURBO: "bedrock/anthropic.claude-3-sonnet-20240229-v1:0"
           CONFIG.FALLBACK_MODELS: "[\"bedrock/anthropic.claude-v2:1\"]"
+          LITELLM.DROP_PARAMS: "true"
           AWS.BEDROCK_REGION: "us-east-1"
           # CONFIG.MODEL: "gpt-4o"
           CONFIG.VERBOSITY_LEVEL: "1"
