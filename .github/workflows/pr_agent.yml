@@ -24,13 +24,13 @@ jobs:
         id: pragent
         uses: Codium-ai/pr-agent@v0.22
         env:
-          OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
+          # OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # config.model: "bedrock/meta.llama3-70b-instruct-v1:0"
-          # config.model_turbo: "bedrock/meta.llama3-8b-instruct-v1:0"
-          # config.fallback_models: "[\"bedrock/meta.llama3-8b-instruct-v1:0\"]"
-          # aws.bedrock_region: "us-east-1"
-          CONFIG.MODEL: "gpt-4o"
+          CONFIG.MODEL: "bedrock/meta.llama3-70b-instruct-v1:0"
+          CONFIG.MODEL_TURBO: "bedrock/meta.llama3-8b-instruct-v1:0"
+          CONFIG.FALLBACK_MODELS: "[\"bedrock/meta.llama3-8b-instruct-v1:0\"]"
+          AWS.BEDROCK_REGION: "us-east-1"
+          # CONFIG.MODEL: "gpt-4o"
           CONFIG.VERBOSITY_LEVEL: "1"
           PR_REVIEWER.INLINE_CODE_COMMENTS: "true"
           PR_REVIEWER.REQUIRE_SCORE_REVIEW: "true"
