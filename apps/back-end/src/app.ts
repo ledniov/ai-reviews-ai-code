@@ -114,6 +114,37 @@ app.post("/todos", async function (req, res) {
   }
 });
 
+app.put("/todos/:id", async function (req, res) {
+  const { id, title, description, completed } = req.body;
+
+  const params = {
+    TableName: TODOS_TABLE,
+    Item: {
+      id: {
+        S: `${req.params.id}`
+      },
+      title: {
+        S: title
+      },
+      description: {
+        S: description
+      },
+      completed: {
+        BOOL: completed
+      },
+    },
+  };
+
+  try {
+    const command = new PutItemCommand(params);
+    await client.send(command);
+    res.json({ id, title, description, completed });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Could not create todo item" });
+  }
+});
+
 app.use((req, res, next) => {
   return res.status(404).json({
     error: "Not Found",

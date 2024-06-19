@@ -109,3 +109,43 @@ resource "aws_apigatewayv2_stage" "api_stage" {
   name        = "prod" # Replace with the desired stage name
   auto_deploy = true
 }
+
+resource "aws_iam_role" "github_action" {
+  name = "github_action_role"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "github_action_policy" {
+  name = "github_action_policy"
+  role = aws_iam_role.github_action.id
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "bedrock:*"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
